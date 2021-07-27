@@ -46,7 +46,16 @@
         <h2>Battle Log</h2>
         <ul>
           <li v-for="(logMessage, index) in logMessages">
-            {{ logMessages.length - index }}/ {{ logMessage.actionBy }} {{ logMessage.actionType }}s for {{ logMessage.actionValue }} points of damage.
+            <span>Round {{ Math.round((logMessages.length - index) / 2) }}: </span>
+            <span :class="{'log--player': logMessage.actionBy === 'player', 'log--monster': logMessage.actionBy === 'monster'}">{{ logMessage.actionBy === 'player' ? 'Player' : 'Monster'}}</span>
+            <span v-if="logMessage.actionType === 'heal'">
+              heal himself for
+              <span class="log--heal">{{ logMessage.actionValue }}</span>
+            </span>
+            <span v-else>
+              attacks and deals
+              <span class="log--damage">{{ logMessage.actionValue }}</span>
+            </span>
           </li>
         </ul>
       </section>
